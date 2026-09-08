@@ -1,16 +1,24 @@
 # NextOneTwo entrance page
 
-The entrance page for the NextOneTwo Project at **https://www.nextonetwo.com** — a project
-introduction, direct links to the two research tools, the current information stage alongside the
-planned guidance and action stages, and a light/dark theme toggle.
+> **Know More. Connect Better. Act Smarter.**
 
-NextOneTwo supports student-athletes with well-grounded, organized information, customized and
-specialized guidance, and timely action recommendations. The project is currently in the
-information stage, starting with girls' soccer in the U.S.; guidance and action recommendations are
-presented as planned. The name represents the next action, connection, play, and breakthrough
-toward winning, success, growth, and learning.
+The entrance page for the NextOneTwo Project at **https://www.nextonetwo.com** — the slogan, direct
+links to the two research tools, the three project stages, and a light/dark theme toggle.
 
-This is a research project, non-profit for now.
+NextOneTwo supports student-athletes with well-grounded information, personalized guidance, and
+timely action, starting with girls' soccer in the U.S.
+
+The slogan is also the roadmap. Each phrase is one stage of the project, and the page states plainly
+which one is delivered today:
+
+| Stage | Slogan phrase  | What it means         | Status          |
+|-------|----------------|-----------------------|-----------------|
+| 1     | Know More      | Organized information | Our focus today |
+| 2     | Connect Better | Personalized guidance | Planned         |
+| 3     | Act Smarter    | Timely action         | Planned         |
+
+Stages 2 and 3 are presented as planned, never as available. This is a research project, non-profit
+for now.
 
 ## Layout
 
