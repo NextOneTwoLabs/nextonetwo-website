@@ -24,7 +24,7 @@ if (form && note) {
 
   // "Join the waiting list" buttons: remember which section sent the visitor, then hand focus to
   // the email field once the anchor jump has happened.
-  for (const btn of document.querySelectorAll('.btn[data-source]')) {
+  for (const btn of document.querySelectorAll('[data-source]')) {
     btn.addEventListener('click', () => {
       source.value = btn.dataset.source;
       setTimeout(() => email.focus({ preventScroll: true }), 0);

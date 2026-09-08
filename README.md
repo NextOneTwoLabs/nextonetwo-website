@@ -35,8 +35,8 @@ The only thing the site collects. The form on the page posts to `/api/waitlist`,
     key:    the email address, lowercased
     value:  { "joined": "<first signup, ISO 8601>", "sources": ["connect-better", "act-smarter"] }
 
-`sources` records which "Join the waiting list" button(s) the visitor used, so the list says what
-people are waiting for. Nothing else is stored — no IP address, no user agent. Signing up twice
+`sources` records which section's "Join the waiting list" link(s) the visitor used, so the list
+says what people are waiting for. Nothing else is stored — no IP address, no user agent. Signing up twice
 updates the one record rather than creating another.
 
 The form works with JavaScript off (plain POST, the Worker redirects back to the page with a
