@@ -24,4 +24,4 @@ run_worker_first = ["/", "/api/*"]
 # `npx wrangler kv namespace create WAITLIST` and paste the id it prints.
 [[kv_namespaces]]
 binding = "WAITLIST"
-id = "REPLACE_WITH_NAMESPACE_ID"
+id = "89b2482f54ba450ea882195121168e68"
