@@ -1,0 +1,21 @@
+# Cloudflare Workers config for the site.
+#
+# The site is the static files in public/ — the same directory a local
+# `python -m http.server` run serves, so the deployed site is byte-identical to
+# a local run. The tiny worker.js only redirects the workers.dev address and the
+# bare apex to the canonical custom domain; it runs ahead of the assets for "/"
+# alone, so everything else is served as free static assets without invoking the
+# Worker.
+#
+# Canonical address: https://www.nextonetwo.com  (custom domain, attached to this
+# Worker in the Cloudflare dashboard under Settings -> Domains & Routes. Attach
+# nextonetwo.com there too so the apex reaches the Worker and is redirected.)
+
+name = "nextonetwo-website"
+main = "worker.js"
+compatibility_date = "2026-09-08"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/"]
