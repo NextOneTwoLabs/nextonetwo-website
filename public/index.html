@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NextOneTwo — Know More. Connect Better. Act Smarter.</title>
-<meta name="description" content="The NextOneTwo Project helps student-athletes know more, connect better, and act smarter. Explore our College Soccer and ECNL Girls research tools.">
+<meta name="description" content="NextOneTwo helps student-athletes know more, connect better, and act smarter. Explore the College Soccer and ECNL Girls research tools, and join the waiting list for what's next.">
 <meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://www.nextonetwo.com/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -20,12 +20,11 @@
 </header>
 <main id="main" class="main">
   <section class="intro" aria-labelledby="title">
+    <p class="lead">NextOneTwo helps you</p>
     <h1 id="title"><span>Know More.</span> <span>Connect Better.</span> <span>Act Smarter.</span></h1>
-    <p class="intro-text">Helping student-athletes move forward with well-grounded information, personalized guidance, and timely action.</p>
-    <p class="scope">Starting with girls’ soccer in the U.S.</p>
   </section>
-  <section class="tools" aria-labelledby="tools-title">
-    <div class="section-heading"><h2 id="tools-title">Explore our research tools</h2><span class="status"><span></span>Available now</span></div>
+  <section class="tools" id="know-more" aria-labelledby="know-more-title">
+    <div class="section-heading"><h2 id="know-more-title">Know More</h2><span class="status"><span></span>Available now</span></div>
     <div class="tool-grid">
       <a class="tool-card" href="https://college.nextonetwo.com/" aria-labelledby="college-title">
         <div class="card-heading"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5-9-5Z"/><path d="M6 11v6c4 3 8 3 12 0v-6M21 9v8"/></svg></span><span class="arrow" aria-hidden="true">↗</span></div>
@@ -43,13 +42,29 @@
       </a>
     </div>
   </section>
-  <section class="direction" aria-labelledby="direction-title">
-    <h2 id="direction-title" class="sr-only">How the project unfolds</h2>
-    <ol class="stages">
-      <li class="current"><span class="stage-number">1</span><div><h3>Know More</h3><span>Organized information · Our focus today</span></div></li>
-      <li><span class="stage-number">2</span><div><h3>Connect Better</h3><span>Personalized guidance · Planned</span></div></li>
-      <li><span class="stage-number">3</span><div><h3>Act Smarter</h3><span>Timely action · Planned</span></div></li>
-    </ol>
+  <div class="soon-grid">
+    <section class="soon" id="connect-better" aria-labelledby="connect-better-title">
+      <div class="section-heading"><h2 id="connect-better-title">Connect Better</h2><span class="status is-soon"><span></span>Coming soon</span></div>
+      <p>Personalized guidance for your next connection.</p>
+      <a class="btn" href="#waitlist" data-source="connect-better">Join the waiting list</a>
+    </section>
+    <section class="soon" id="act-smarter" aria-labelledby="act-smarter-title">
+      <div class="section-heading"><h2 id="act-smarter-title">Act Smarter</h2><span class="status is-soon"><span></span>Coming soon</span></div>
+      <p>Timely recommendations for your next move.</p>
+      <a class="btn" href="#waitlist" data-source="act-smarter">Join the waiting list</a>
+    </section>
+  </div>
+  <section class="waitlist" id="waitlist" aria-labelledby="waitlist-title">
+    <h2 id="waitlist-title">Join the waiting list</h2>
+    <p>One email when Connect Better and Act Smarter launch. Nothing else.</p>
+    <form id="waitlist-form" action="/api/waitlist" method="post">
+      <label class="sr-only" for="waitlist-email">Email address</label>
+      <input id="waitlist-email" type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+      <input type="hidden" name="source" value="page">
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" type="submit">Join</button>
+    </form>
+    <p class="form-note" id="waitlist-note" aria-live="polite"></p>
   </section>
 </main>
 <footer><div><span>© <span id="year">2026</span> NextOneTwo</span><span>Information to support your decisions. Verify details with the original source.</span></div></footer>

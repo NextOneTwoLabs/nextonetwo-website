@@ -2,14 +2,14 @@
 #
 # The site is the static files in public/ — the same directory a local
 # `python -m http.server` run serves, so the deployed site is byte-identical to
-# a local run. The tiny worker.js only redirects the workers.dev address and the
-# bare apex to the canonical custom domain; it runs ahead of the assets for "/"
-# alone, so everything else is served as free static assets without invoking the
-# Worker.
+# a local run (minus the waiting-list form, which needs the Worker; use
+# `npx wrangler dev` to run the full thing). worker.js runs ahead of the assets
+# for "/" and "/api/*" only, so everything else is served as free static assets
+# without invoking the Worker.
 #
 # Canonical address: https://www.nextonetwo.com  (custom domain, attached to this
-# Worker in the Cloudflare dashboard under Settings -> Domains & Routes. Attach
-# nextonetwo.com there too so the apex reaches the Worker and is redirected.)
+# Worker in the Cloudflare dashboard under Settings -> Domains & Routes, along
+# with nextonetwo.com so the apex reaches the Worker and is redirected.)
 
 name = "nextonetwo-website"
 main = "worker.js"
@@ -18,4 +18,10 @@ compatibility_date = "2026-09-08"
 [assets]
 directory = "./public"
 binding = "ASSETS"
-run_worker_first = ["/"]
+run_worker_first = ["/", "/api/*"]
+
+# Waiting-list signups, one key per email. Create once with
+# `npx wrangler kv namespace create WAITLIST` and paste the id it prints.
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "REPLACE_WITH_NAMESPACE_ID"
