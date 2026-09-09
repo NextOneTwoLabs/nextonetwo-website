@@ -57,6 +57,7 @@ if (form && note) {
   // No-JS fallback path lands here with ?joined=1; show the same confirmation and tidy the URL.
   if (new URLSearchParams(location.search).get('joined') === '1') {
     done();
+    addEventListener('load', () => note.focus(), { once: true });
     history.replaceState(null, '', location.pathname + location.hash);
   }
 }
