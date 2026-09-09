@@ -20,6 +20,8 @@ if (form && note) {
     form.hidden = true;
     note.textContent = 'You’re on the list.';
     note.classList.add('is-ok');
+    note.tabIndex = -1;
+    note.focus();
   };
 
   // "Join the waiting list" buttons: remember which section sent the visitor, then hand focus to
@@ -55,6 +57,7 @@ if (form && note) {
   // No-JS fallback path lands here with ?joined=1; show the same confirmation and tidy the URL.
   if (new URLSearchParams(location.search).get('joined') === '1') {
     done();
+    addEventListener('load', () => note.focus(), { once: true });
     history.replaceState(null, '', location.pathname + location.hash);
   }
 }
