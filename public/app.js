@@ -1,10 +1,17 @@
+const root = document.documentElement;
 const toggle = document.querySelector('#theme-toggle');
-toggle.addEventListener('click', () => {
-  const dark = document.documentElement.dataset.theme !== 'dark';
-  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+const themeColor = document.querySelector('meta[name="theme-color"]'); // colors also in the inline script in index.html
+const paint = (dark) => {
+  root.dataset.theme = dark ? 'dark' : 'light';
   toggle.setAttribute('aria-pressed', String(dark));
   toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
-  document.querySelector('meta[name="theme-color"]').content = dark ? '#17212f' : '#ffffff';
+  themeColor.content = dark ? '#17212f' : '#ffffff';
+};
+paint(root.dataset.theme === 'dark'); // the inline script in index.html chose the theme; sync the button to it
+toggle.addEventListener('click', () => {
+  const dark = root.dataset.theme !== 'dark';
+  paint(dark);
+  try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
 });
 document.querySelector('#year').textContent = new Date().getFullYear();
 

@@ -6,6 +6,14 @@
 <title>NextOneTwo — Know More. Connect Better. Act Smarter.</title>
 <meta name="description" content="NextOneTwo helps young athletes know more, connect better, and act smarter. Explore the College Soccer and ECNL Girls research tools, and join the waiting list for what's next.">
 <meta name="theme-color" content="#ffffff">
+<script>
+{
+  let t; try { t = localStorage.getItem('theme'); } catch {}
+  if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  document.documentElement.dataset.theme = t;
+  if (t === 'dark') document.querySelector('meta[name="theme-color"]').content = '#17212f'; // keep in sync with app.js
+}
+</script>
 <link rel="canonical" href="https://www.nextonetwo.com/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">

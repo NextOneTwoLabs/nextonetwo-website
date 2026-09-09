@@ -84,5 +84,6 @@ file is served as a free static asset.
 - [ecnl-dashboard](https://github.com/NextOneTwoLabs/ecnl-dashboard) — https://ecnl.nextonetwo.com
 
 The tool links on the page open in the same tab; users can use standard browser controls to open a
-new tab. The theme choice lasts for the current page visit and is not stored. No claims are made
-about live data freshness or independent verification.
+new tab. The theme follows the system preference until the visitor toggles it; that choice is kept
+in the browser under one localStorage key, `theme`. Nothing else is stored client-side. No claims
+are made about live data freshness or independent verification.
