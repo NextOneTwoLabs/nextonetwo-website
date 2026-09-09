@@ -20,6 +20,8 @@ if (form && note) {
     form.hidden = true;
     note.textContent = 'You’re on the list.';
     note.classList.add('is-ok');
+    note.tabIndex = -1;
+    note.focus();
   };
 
   // "Join the waiting list" buttons: remember which section sent the visitor, then hand focus to
