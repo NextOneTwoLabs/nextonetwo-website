@@ -2,7 +2,7 @@
 #
 # The site is the static files in public/ — the same directory a local
 # `python -m http.server` run serves, so the deployed site is byte-identical to
-# a local run (minus the waiting-list form, which needs the Worker; use
+# a local run (minus the two forms, which need the Worker; use
 # `npx wrangler dev` to run the full thing). worker.js runs ahead of the assets
 # for "/" and "/api/*" only, so everything else is served as free static assets
 # without invoking the Worker.

@@ -1,5 +1,5 @@
 // Entry point for the deployed Worker. The site itself is the static files in public/ (see
-// [assets] in wrangler.toml). This script does two things and runs ahead of the static assets only
+// [assets] in wrangler.toml). This script does three things and runs ahead of the static assets only
 // for "/" and "/api/*" (run_worker_first in wrangler.toml), so every other file is served as a
 // free static asset:
 //
@@ -115,6 +115,8 @@ async function feedback(request, env) {
   } catch {
     body = {};
   }
+  // JSON.parse can return null or a scalar; neither can be dereferenced below.
+  if (!body || typeof body !== 'object') body = {};
 
   const reply = (status, error) => {
     if (wantsJson) return Response.json(error ? { ok: false, error } : { ok: true }, { status });
