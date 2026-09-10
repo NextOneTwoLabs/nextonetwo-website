@@ -20,7 +20,8 @@ No edits, no commits, no pushes, no GitHub comments.
 
 ## What to check, in priority order
 1. Correctness: does the change fix the stated symptom at its root, and can it break anything
-   else on the page, the apex redirect, or the waiting-list endpoint?
+   else on the page, the apex redirect, or the waiting-list endpoint? If the PR touches the inline
+   script in `index.html`, recompute the CSP hashes (recipe in the README) and compare with `worker.js`.
 2. Scope: does the diff stay inside the approved plan? Flag any extra change.
 3. Behaviour with JavaScript off, at mobile width, and in dark mode where relevant.
 4. Privacy: the site stores only waiting-list emails; the zone-level Cloudflare Web Analytics

@@ -22,6 +22,7 @@ non-profit for now.
       styles.css
       app.js           theme toggle, copyright year, waiting-list form submit
       assets/favicon.svg
+      _headers         security headers for the static files (see Security headers)
     worker.js          redirects workers.dev and the bare apex to www; handles POST /api/waitlist
     wrangler.toml      Cloudflare Workers config, including the WAITLIST KV binding
 
@@ -78,6 +79,19 @@ The custom domains are attached in the Cloudflare dashboard under **Settings →
 `www.nextonetwo.com` as the canonical address, and `nextonetwo.com` so the apex reaches the Worker
 and is redirected to www. `worker.js` runs ahead of the assets for `/` and `/api/*` only; every other
 file is served as a free static asset.
+
+### Security headers
+
+`worker.js` sets them on `/` and `/api/*`; `public/_headers` sets them on the static files. Keep the
+two in sync. HSTS is one week for now, to be raised to a year in a follow-up. The CSP is report-only
+for now and allows the inline theme script in `index.html` by two hashes; the recipe prints the
+checkout's hash first (CRLF on Windows with autocrlf), then LF, so keep that order. Recompute
+them after any edit to that script (`wrangler dev` serves CRLF on Windows, production serves LF):
+
+    python -c "import hashlib,base64;b=open('public/index.html','rb').read();s=b[b.index(b'<script>')+8:b.index(b'</script>')];print(base64.b64encode(hashlib.sha256(s).digest()).decode(),base64.b64encode(hashlib.sha256(s.replace(b'\r\n',b'\n')).digest()).decode())"
+
+Cloudflare features that rewrite inline scripts (Rocket Loader) would break the hashes; leave them
+off. HSTS only counts over HTTPS; **SSL/TLS → Edge Certificates → Always Use HTTPS** must be on.
 
 ## Related repos
 

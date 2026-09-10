@@ -7,21 +7,50 @@
 //   2. Accepts waiting-list signups at POST /api/waitlist and stores them in the WAITLIST KV
 //      namespace, one key per email. Stored per signup: the first-joined timestamp and which
 //      "Join the waiting list" buttons were used. No IP, no user agent.
+//
+// Every response this script returns carries the security headers below. Static files never reach
+// this script, so public/_headers repeats the ones that apply to them; keep the two in sync.
 const CANONICAL_HOST = 'www.nextonetwo.com';
 const SOURCES = new Set(['connect-better', 'act-smarter']);
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// The CSP is report-only until the live console is confirmed clean, then enforced. The two hashes
+// are the SHA-256 of the inline theme script in public/index.html (the bytes between <script> and
+// </script>), once with LF line endings as deployed and once with CRLF as checked out on Windows,
+// so `wrangler dev` passes too. Any edit to that script must update both; the recipe is in the
+// README under "Security headers".
+const HEADERS = {
+  'strict-transport-security': 'max-age=604800',
+  'x-content-type-options': 'nosniff',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'permissions-policy': 'camera=(), microphone=(), geolocation=()',
+  'content-security-policy-report-only':
+    "default-src 'self'; " +
+    "script-src 'self' 'sha256-MOzRt8wdypyoSuLVgnmKgSp3UZfiZiL1UYYTFoTinrw=' " +
+    "'sha256-1XDJnt+WLN+GeSvc99vQUh5J+a8ndXRcF7utwh99c+M=' https://static.cloudflareinsights.com; " +
+    "style-src 'self'; img-src 'self'; connect-src 'self'; form-action 'self'; " +
+    "frame-ancestors 'none'; base-uri 'none'; object-src 'none'",
+};
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.hostname.endsWith('.workers.dev') || url.hostname === 'nextonetwo.com') {
+      url.protocol = 'https:';
       url.hostname = CANONICAL_HOST;
-      return Response.redirect(url.toString(), 301);
+      return secure(Response.redirect(url.toString(), 301));
     }
-    if (url.pathname === '/api/waitlist') return waitlist(request, env);
-    return env.ASSETS.fetch(request);
+    if (url.pathname === '/api/waitlist') return secure(await waitlist(request, env));
+    return secure(await env.ASSETS.fetch(request));
   },
 };
+
+// Copies a response (Response.redirect and asset responses are immutable) and sets every header.
+function secure(res) {
+  const out = new Response(res.body, res);
+  for (const [name, value] of Object.entries(HEADERS)) out.headers.set(name, value);
+  return out;
+}
 
 async function waitlist(request, env) {
   if (request.method !== 'POST') {
