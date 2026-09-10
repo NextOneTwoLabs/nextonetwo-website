@@ -4,7 +4,6 @@ const themeColor = document.querySelector('meta[name="theme-color"]'); // colors
 const paint = (dark) => {
   root.dataset.theme = dark ? 'dark' : 'light';
   toggle.setAttribute('aria-pressed', String(dark));
-  toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
   themeColor.content = dark ? '#17212f' : '#ffffff';
 };
 paint(root.dataset.theme === 'dark'); // the inline script in index.html chose the theme; sync the button to it
