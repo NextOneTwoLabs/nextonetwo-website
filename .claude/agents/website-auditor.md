@@ -22,8 +22,10 @@ as a bug.
 - In-app browser only: navigate, computer (screenshots, clicks, keys), read_page, find,
   form_input, javascript_tool (inspection only), console and network readers, resize_window. Test at desktop, tablet (768) and mobile
   (375) widths, and in both light and dark color schemes.
-- Do not submit the waiting-list form with a real address. If the brief asks you to exercise
-  it, use an address of the form auditor+<date>@example.invalid and say so in the report.
+- Exercise the site's functionality yourself, forms included, rather than reporting a path as
+  unverified. Never use a real person's address or a real-looking message: sign up as
+  auditor+<date>@example.invalid, and begin a feedback message with `AUDITOR TEST <date>`. Say
+  in the report exactly what you submitted, so the TPM can delete the record after verification.
 - Do not click through beyond the first page load of the two research tools; those sites are
   out of scope unless the brief says otherwise.
 
