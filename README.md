@@ -79,6 +79,18 @@ The custom domains are attached in the Cloudflare dashboard under **Settings →
 and is redirected to www. `worker.js` runs ahead of the assets for `/` and `/api/*` only; every other
 file is served as a free static asset.
 
+### Security headers
+
+`worker.js` sets them on `/` and `/api/*`; `public/_headers` sets them on the static files. Keep the
+two in sync. HSTS is one week for now, to be raised to a year in a follow-up. The CSP is report-only
+for now and allows the inline theme script in `index.html` by two hashes, LF and CRLF. Recompute
+them after any edit to that script (`wrangler dev` serves CRLF on Windows, production serves LF):
+
+    python -c "import hashlib,base64;b=open('public/index.html','rb').read();s=b[b.index(b'<script>')+8:b.index(b'</script>')];print(base64.b64encode(hashlib.sha256(s).digest()).decode(),base64.b64encode(hashlib.sha256(s.replace(b'\r\n',b'\n')).digest()).decode())"
+
+Cloudflare features that rewrite inline scripts (Rocket Loader) would break the hashes; leave them
+off. HSTS only counts over HTTPS, so **SSL/TLS → Edge Certificates → Always Use HTTPS** is on.
+
 ## Related repos
 
 - [collegedash](https://github.com/NextOneTwoLabs/collegedash) — https://college.nextonetwo.com
