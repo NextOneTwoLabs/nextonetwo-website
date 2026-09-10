@@ -27,7 +27,10 @@ if (form && note) {
     note.textContent = 'You’re on the list.';
     note.classList.add('is-ok');
     note.tabIndex = -1;
-    note.focus();
+    note.focus({ preventScroll: true });
+    // Drop the query string (keeping the fragment) and record the flag on this history entry (not
+    // in storage), so back/forward or reload shows the confirmation again.
+    try { history.replaceState({ ...history.state, joined: true }, '', location.pathname + location.hash); } catch {}
   };
 
   // "Join the waiting list" buttons: remember which section sent the visitor, then hand focus to
@@ -60,10 +63,10 @@ if (form && note) {
     button.disabled = false;
   });
 
-  // No-JS fallback path lands here with ?joined=1; show the same confirmation and tidy the URL.
-  if (new URLSearchParams(location.search).get('joined') === '1') {
+  // Landing here already joined: the no-JS fallback arrives with ?joined=1; a back/forward or
+  // reload of the entry where the visitor joined carries the flag in history.state.
+  if (history.state?.joined || new URLSearchParams(location.search).get('joined') === '1') {
     done();
-    addEventListener('load', () => note.focus(), { once: true });
-    history.replaceState(null, '', location.pathname + location.hash);
+    addEventListener('load', () => note.focus({ preventScroll: true }), { once: true });
   }
 }
