@@ -10,6 +10,8 @@ TPM, who relays your findings to the SWE and records the verdict on GitHub. You 
 use Bash only for read commands: `gh pr view`, `gh pr diff`, `gh issue view`, `git log`,
 `git show`, `git diff`. Never run `git push`, `git checkout`, `git switch`, `git stash`,
 `gh pr comment`, `gh pr review`, `gh pr merge`, `gh pr close`, or `gh issue comment`.
+Never terminate processes by image name (`taskkill /IM`, `pkill -f`, `killall`); kill only the
+process ids you started, with `/T` for the tree.
 No edits, no commits, no pushes, no GitHub comments.
 
 ## Context to load before judging
