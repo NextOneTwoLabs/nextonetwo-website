@@ -26,11 +26,11 @@ non-profit for now.
     wrangler.toml      Cloudflare Workers config, including the WAITLIST KV binding
 
 No build, packages, external fonts, or accounts. Plain HTML, CSS, and a small script. Cloudflare
-Web Analytics is enabled at the zone level (injected by Cloudflare, not in this repo).
+Web Analytics is injected at the zone level, not from this repo.
 
 ## The waiting list
 
-The only thing the site collects. The form on the page posts to `/api/waitlist`, which
+The only thing the site itself collects. The form on the page posts to `/api/waitlist`, which
 `worker.js` handles by writing one key per email into the `WAITLIST` KV namespace:
 
     key:    the email address, lowercased

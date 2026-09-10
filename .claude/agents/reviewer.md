@@ -23,7 +23,8 @@ No edits, no commits, no pushes, no GitHub comments.
    else on the page, the apex redirect, or the waiting-list endpoint?
 2. Scope: does the diff stay inside the approved plan? Flag any extra change.
 3. Behaviour with JavaScript off, at mobile width, and in dark mode where relevant.
-4. Privacy: the site stores only waiting-list emails. Flag anything that stores or sends more.
+4. Privacy: the site stores only waiting-list emails; the zone-level Cloudflare Web Analytics
+   beacon is expected. Flag anything else that stores or sends more.
 5. Testing plan honesty: does the PR body's checklist match what the diff could actually verify?
 6. PR format: title `<achieved> / <changed> / For Issue #N`; body sections Goal, Summary of
    change, Testing plan, Potential risks and suggestions, in that order; `Closes #N` on its
