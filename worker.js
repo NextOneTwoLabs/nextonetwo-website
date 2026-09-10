@@ -1,5 +1,5 @@
 // Entry point for the deployed Worker. The site itself is the static files in public/ (see
-// [assets] in wrangler.toml). This script does two things and runs ahead of the static assets only
+// [assets] in wrangler.toml). This script does three things and runs ahead of the static assets only
 // for "/" and "/api/*" (run_worker_first in wrangler.toml), so every other file is served as a
 // free static asset:
 //
@@ -7,12 +7,17 @@
 //   2. Accepts waiting-list signups at POST /api/waitlist and stores them in the WAITLIST KV
 //      namespace, one key per email. Stored per signup: the first-joined timestamp and which
 //      "Join the waiting list" buttons were used. No IP, no user agent.
+//   3. Accepts footer feedback at POST /api/feedback and stores it in the FEEDBACK KV namespace,
+//      one key per submission. Stored: when it was sent, the message, and the reply email if the
+//      visitor gave one. No IP, no user agent.
 //
 // Every response this script returns carries the security headers below. Static files never reach
 // this script, so public/_headers repeats the ones that apply to them; keep the two in sync.
 const CANONICAL_HOST = 'www.nextonetwo.com';
 const SOURCES = new Set(['connect-better', 'act-smarter']);
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Matches the textarea's maxlength in index.html; both count UTF-16 code units.
+const MAX_MESSAGE = 2000;
 
 // The CSP is report-only until the live console is confirmed clean, then enforced. The two hashes
 // are the SHA-256 of the inline theme script in public/index.html (the bytes between <script> and
@@ -41,6 +46,7 @@ export default {
       return secure(Response.redirect(url.toString(), 301));
     }
     if (url.pathname === '/api/waitlist') return secure(await waitlist(request, env));
+    if (url.pathname === '/api/feedback') return secure(await feedback(request, env));
     return secure(await env.ASSETS.fetch(request));
   },
 };
@@ -90,5 +96,58 @@ async function waitlist(request, env) {
     sources: [...new Set([...(existing.sources || []), source])],
   };
   await env.WAITLIST.put(email, JSON.stringify(record));
+  return reply(200);
+}
+
+async function feedback(request, env) {
+  if (request.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405, headers: { allow: 'POST' } });
+  }
+
+  // Same two callers as the waiting list: JSON from the page's script, urlencoded from the plain
+  // no-JS form. Answer each in kind.
+  const wantsJson = (request.headers.get('content-type') || '').includes('application/json');
+  let body = {};
+  try {
+    body = wantsJson
+      ? await request.json()
+      : Object.fromEntries((await request.formData()).entries());
+  } catch {
+    body = {};
+  }
+  // JSON.parse can return null or a scalar; neither can be dereferenced below.
+  if (!body || typeof body !== 'object') body = {};
+
+  const reply = (status, error) => {
+    if (wantsJson) return Response.json(error ? { ok: false, error } : { ok: true }, { status });
+    const back = new URL(error ? '/#feedback' : '/?sent=1#feedback', request.url);
+    return Response.redirect(back.toString(), 303);
+  };
+
+  // Honeypot: real visitors never see the "website" field. Pretend it worked and store nothing.
+  if (body.website) return reply(200);
+
+  const message = String(body.message || '').trim();
+  if (!message) return reply(400, 'Please add a message.');
+  if (message.length > MAX_MESSAGE) return reply(400, 'Please keep it under 2,000 characters.');
+
+  // The email is optional, so it is only checked when the visitor gave one.
+  const email = String(body.email || '').trim().toLowerCase();
+  if (email && (!EMAIL.test(email) || email.length > 254)) {
+    return reply(400, 'Please enter a valid email address.');
+  }
+
+  // One key per submission. The email cannot be the key: it is optional and not unique. The ISO
+  // timestamp makes `kv key list` come back in chronological order and readable by eye; the random
+  // suffix keeps two submissions in the same millisecond apart. Repeating the email as metadata
+  // lets a listing show whether there is a reply address without fetching every record.
+  const suffix = [...crypto.getRandomValues(new Uint8Array(4))]
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+  const record = { sent: new Date().toISOString(), message };
+  if (email) record.email = email;
+  await env.FEEDBACK.put(`${record.sent}-${suffix}`, JSON.stringify(record), {
+    metadata: { email: email || null },
+  });
   return reply(200);
 }

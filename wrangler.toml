@@ -2,7 +2,7 @@
 #
 # The site is the static files in public/ — the same directory a local
 # `python -m http.server` run serves, so the deployed site is byte-identical to
-# a local run (minus the waiting-list form, which needs the Worker; use
+# a local run (minus the two forms, which need the Worker; use
 # `npx wrangler dev` to run the full thing). worker.js runs ahead of the assets
 # for "/" and "/api/*" only, so everything else is served as free static assets
 # without invoking the Worker.
@@ -25,3 +25,9 @@ run_worker_first = ["/", "/api/*"]
 [[kv_namespaces]]
 binding = "WAITLIST"
 id = "89b2482f54ba450ea882195121168e68"
+
+# Site feedback, one key per submission. Create once with
+# `npx wrangler kv namespace create FEEDBACK` and paste the id it prints.
+[[kv_namespaces]]
+binding = "FEEDBACK"
+id = "f233d456d60444b7920a4dedb6039901"
