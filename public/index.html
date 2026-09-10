@@ -102,7 +102,22 @@
     <p class="form-note" id="waitlist-note" aria-live="polite"></p>
   </section>
 </main>
-<footer><div><span>© <span id="year">2026</span> NextOneTwo</span><span>Information to support your decisions. Verify details with the original source.</span></div></footer>
+<footer>
+<details id="feedback" class="feedback">
+  <summary>Send feedback</summary>
+  <p>What would make this better?</p>
+  <form id="feedback-form" action="/api/feedback" method="post">
+    <label for="feedback-message">Message</label>
+    <textarea id="feedback-message" name="message" rows="4" maxlength="2000" required></textarea>
+    <label for="feedback-email">Email (optional, for a reply)</label>
+    <input id="feedback-email" type="email" name="email" autocomplete="email">
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn" type="submit">Send</button>
+  </form>
+  <p class="form-note" id="feedback-note" aria-live="polite"></p>
+</details>
+<div><span>© <span id="year">2026</span> NextOneTwo</span><span>Information to support your decisions. Verify details with the original source.</span></div>
+</footer>
 </body>
 </html>
 

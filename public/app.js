@@ -70,3 +70,55 @@ if (form && note) {
     addEventListener('load', () => note.focus({ preventScroll: true }), { once: true });
   }
 }
+
+// Feedback. Like the waiting list, the form works without this script (plain POST, the Worker
+// answers with a 303 back to /?sent=1#feedback); this upgrades it to an in-place submit.
+const feedbackPanel = document.querySelector('#feedback');
+const feedbackForm = document.querySelector('#feedback-form');
+const feedbackNote = document.querySelector('#feedback-note');
+if (feedbackPanel && feedbackForm && feedbackNote) {
+  const sent = () => {
+    feedbackForm.hidden = true;
+    feedbackNote.textContent = 'Thanks — got it.';
+    feedbackNote.classList.add('is-ok');
+    feedbackNote.tabIndex = -1;
+    feedbackNote.focus({ preventScroll: true });
+    // Drop the query string (keeping the fragment) and record the flag on this history entry (not
+    // in storage), so back/forward or reload shows the confirmation again.
+    try { history.replaceState({ ...history.state, sent: true }, '', location.pathname + location.hash); } catch {}
+  };
+
+  feedbackForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = feedbackForm.querySelector('button');
+    button.disabled = true;
+    feedbackNote.classList.remove('is-ok');
+    feedbackNote.textContent = 'Sending…';
+    try {
+      const res = await fetch(feedbackForm.action, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          message: feedbackForm.elements.message.value,
+          email: feedbackForm.elements.email.value,
+          website: feedbackForm.elements.website.value,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) sent();
+      else feedbackNote.textContent = data.error || 'Something went wrong. Please try again.';
+    } catch {
+      feedbackNote.textContent = 'Couldn’t reach the server. Please try again.';
+    }
+    button.disabled = false;
+  });
+
+  // Landing here having already sent: the no-JS fallback arrives with ?sent=1; a back/forward or
+  // reload of the entry where the visitor sent carries the flag in history.state. The panel is
+  // closed by default and the confirmation lives inside it, so open it too.
+  if (history.state?.sent || new URLSearchParams(location.search).get('sent') === '1') {
+    feedbackPanel.open = true;
+    sent();
+    addEventListener('load', () => feedbackNote.focus({ preventScroll: true }), { once: true });
+  }
+}

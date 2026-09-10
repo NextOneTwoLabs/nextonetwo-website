@@ -25,3 +25,9 @@ run_worker_first = ["/", "/api/*"]
 [[kv_namespaces]]
 binding = "WAITLIST"
 id = "89b2482f54ba450ea882195121168e68"
+
+# Site feedback, one key per submission. Create once with
+# `npx wrangler kv namespace create FEEDBACK` and paste the id it prints.
+[[kv_namespaces]]
+binding = "FEEDBACK"
+id = "f233d456d60444b7920a4dedb6039901"
