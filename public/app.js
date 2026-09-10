@@ -27,10 +27,10 @@ if (form && note) {
     note.textContent = 'You’re on the list.';
     note.classList.add('is-ok');
     note.tabIndex = -1;
-    note.focus();
-    // Record it on this history entry (not in storage) so back/forward or reload shows the
-    // confirmation again, and tidy ?joined=1 off the URL on the no-JS path.
-    history.replaceState({ joined: true }, '', location.pathname + location.hash);
+    note.focus({ preventScroll: true });
+    // Drop the query string (keeping the fragment) and record the flag on this history entry (not
+    // in storage), so back/forward or reload shows the confirmation again.
+    try { history.replaceState({ ...history.state, joined: true }, '', location.pathname + location.hash); } catch {}
   };
 
   // "Join the waiting list" buttons: remember which section sent the visitor, then hand focus to
@@ -67,6 +67,6 @@ if (form && note) {
   // reload of the entry where the visitor joined carries the flag in history.state.
   if (history.state?.joined || new URLSearchParams(location.search).get('joined') === '1') {
     done();
-    addEventListener('load', () => note.focus(), { once: true });
+    addEventListener('load', () => note.focus({ preventScroll: true }), { once: true });
   }
 }
