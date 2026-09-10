@@ -21,14 +21,17 @@ non-profit for now.
       index.html
       styles.css
       app.js           theme toggle, copyright year, waiting-list and feedback form submits
-      assets/favicon.svg
+      assets/favicon.svg         the badge mark alone: tab icon and header
+      assets/badge.svg           the full badge, source of the two PNGs
+      assets/apple-touch-icon.png
+      assets/og.png              link preview
       _headers         security headers for the static files (see Security headers)
     worker.js          redirects workers.dev and the bare apex to www; handles POST /api/waitlist
                        and POST /api/feedback
     wrangler.toml      Cloudflare Workers config, including the WAITLIST and FEEDBACK KV bindings
 
-No build, packages, external fonts, or accounts. Plain HTML, CSS, and a small script. Cloudflare
-Web Analytics is injected at the zone level, not from this repo.
+No build, packages, external fonts, or accounts. Plain HTML, CSS, a small script, and the badge
+artwork. Cloudflare Web Analytics is injected at the zone level, not from this repo.
 
 ## What the site collects
 
