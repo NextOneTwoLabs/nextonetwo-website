@@ -13,8 +13,10 @@ links to the College Soccer and ECNL Girls research tools (separate sites). Conn
 Act Smarter are "coming soon" and each has a "Join the waiting list" link that scrolls to a
 form posting to /api/waitlist with one visible email field plus a hidden `source` field and a
 honeypot field named `website` (both hidden on purpose, not bugs). The bare apex nextonetwo.com must redirect to www.
-Plain HTML, CSS, and a small script (theme toggle, copyright year, form submit). No accounts,
-no analytics. Copy is deliberately minimal; do not report short copy as a bug.
+Plain HTML, CSS, and a small script (theme toggle, copyright year, form submit). No accounts.
+Cloudflare Web Analytics is injected at the zone level (a beacon script and a POST to
+/cdn-cgi/rum are expected, not bugs). Copy is deliberately minimal; do not report short copy
+as a bug.
 
 ## Tools and limits
 - In-app browser only: navigate, computer (screenshots, clicks, keys), read_page, find,

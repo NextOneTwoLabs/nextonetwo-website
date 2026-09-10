@@ -25,7 +25,8 @@ non-profit for now.
     worker.js          redirects workers.dev and the bare apex to www; handles POST /api/waitlist
     wrangler.toml      Cloudflare Workers config, including the WAITLIST KV binding
 
-No build, packages, external fonts, analytics, or accounts. Plain HTML, CSS, and a small script.
+No build, packages, external fonts, or accounts. Plain HTML, CSS, and a small script. Cloudflare
+Web Analytics is enabled at the zone level (injected by Cloudflare, not in this repo).
 
 ## The waiting list
 
