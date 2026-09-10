@@ -40,9 +40,10 @@ Deliverable, in this order:
    `python -m http.server <port> --bind 127.0.0.1 --directory public` for the static page only.
    Note: headless Chrome clamps window width to about 485px; for narrow viewports use a
    same-origin page that iframes the site at the target width.
-   Kill only what you started, by process id (`taskkill /PID <id> /T /F`); never by image name
-   (`taskkill /IM`, `pkill -f`, `killall`) - that kills the owner's Chrome too. If a server
-   outlives its shell, find its children by parent id, not by name.
+   Kill only process ids you started, never by name or image: `taskkill /PID <id> /T /F`, never
+   `taskkill /IM` or `/FI "IMAGENAME eq ..."`, `Stop-Process -Name`, `Get-Process | Stop-Process`,
+   `pkill`, or `killall` - a name sweep kills the owner's Chrome too. Lost the id?
+   Recover it from the port (`netstat -ano | findstr :<port>`) and kill that pid - never by name.
 4. Commit with the `Co-Authored-By` trailer the harness specifies as the last line of the
    message.
 5. Push only the task branch: `git push -u origin claude/<task>`.
