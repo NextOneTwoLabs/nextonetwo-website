@@ -73,6 +73,8 @@ async function waitlist(request, env) {
   } catch {
     body = {};
   }
+  // JSON.parse can return null or a scalar; neither can be dereferenced below.
+  if (!body || typeof body !== 'object') body = {};
 
   const reply = (status, error) => {
     if (wantsJson) return Response.json(error ? { ok: false, error } : { ok: true }, { status });
