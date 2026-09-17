@@ -22,12 +22,14 @@ No edits, no commits, no pushes, no GitHub comments.
 
 ## What to check, in priority order
 1. Correctness: does the change fix the stated symptom at its root, and can it break anything
-   else on the page, the apex redirect, or the waiting-list endpoint? If the PR touches the inline
-   script in `index.html`, recompute the CSP hashes (recipe in the README) and compare with `worker.js`.
+   else on the page, the apex redirect, or the waiting-list and feedback endpoints? If the PR
+   touches the inline script in `index.html`, recompute the CSP hashes (recipe in the README) and
+   compare with `worker.js`.
 2. Scope: does the diff stay inside the approved plan? Flag any extra change.
 3. Behaviour with JavaScript off, at mobile width, and in dark mode where relevant.
-4. Privacy: the site stores only waiting-list emails; the zone-level Cloudflare Web Analytics
-   beacon is expected. Flag anything else that stores or sends more.
+4. Privacy: the site stores only waiting-list emails and feedback messages with an optional
+   reply email; the zone-level Cloudflare Web Analytics beacon is expected. Flag anything else
+   that stores or sends more.
 5. Testing plan honesty: does the PR body's checklist match what the diff could actually verify?
 6. PR format: title `<achieved> / <changed> / For Issue #N`; body sections Goal, Summary of
    change, Testing plan, Potential risks and suggestions, in that order; `Closes #N` on its
