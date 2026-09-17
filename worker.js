@@ -19,7 +19,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Matches the textarea's maxlength in index.html; both count UTF-16 code units.
 const MAX_MESSAGE = 2000;
 
-// The CSP is report-only until the live console is confirmed clean, then enforced. The two hashes
+// The CSP is enforced, so a wrong hash blocks the script instead of logging. The two hashes
 // are the SHA-256 of the inline theme script in public/index.html (the bytes between <script> and
 // </script>), once with LF line endings as deployed and once with CRLF as checked out on Windows,
 // so `wrangler dev` passes too. Any edit to that script must update both; the recipe is in the
@@ -29,7 +29,7 @@ const HEADERS = {
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
   'permissions-policy': 'camera=(), microphone=(), geolocation=()',
-  'content-security-policy-report-only':
+  'content-security-policy':
     "default-src 'self'; " +
     "script-src 'self' 'sha256-MOzRt8wdypyoSuLVgnmKgSp3UZfiZiL1UYYTFoTinrw=' " +
     "'sha256-1XDJnt+WLN+GeSvc99vQUh5J+a8ndXRcF7utwh99c+M=' https://static.cloudflareinsights.com; " +

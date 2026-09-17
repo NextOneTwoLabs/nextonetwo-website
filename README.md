@@ -128,8 +128,8 @@ file is served as a free static asset.
 ### Security headers
 
 `worker.js` sets them on `/` and `/api/*`; `public/_headers` sets them on the static files. Keep the
-two in sync. HSTS is one week for now, to be raised to a year in a follow-up. The CSP is report-only
-for now and allows the inline theme script in `index.html` by two hashes; the recipe prints the
+two in sync. HSTS is one week for now, to be raised to a year in a follow-up. The CSP is enforced
+and allows the inline theme script in `index.html` by two hashes; the recipe prints the
 checkout's hash first (CRLF on Windows with autocrlf), then LF, so keep that order. Recompute
 them after any edit to that script (`wrangler dev` serves CRLF on Windows, production serves LF):
 
