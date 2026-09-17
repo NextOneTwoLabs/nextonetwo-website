@@ -85,14 +85,18 @@ cover both endpoints.
 
     npx wrangler kv key list --binding WAITLIST --remote
     npx wrangler kv key get "someone@example.com" --binding WAITLIST --remote
+    npx wrangler kv key delete "someone@example.com" --binding WAITLIST --remote
 
     npx wrangler kv key list --binding FEEDBACK --remote
     npx wrangler kv key get "2026-09-10T18:04:21.512Z-9f3ac1b2" --binding FEEDBACK --remote
+    npx wrangler kv key delete "<key from the list>" --binding FEEDBACK --remote
 
 or in the dashboard under Storage & Databases → KV. Feedback keys are not guessable, so reading
 feedback back is list then get, one call per submission — it is storage, not an inbox. A feedback
 listing prints the metadata, so it prints every reply email: never paste one into a public issue
 or a screenshot.
+
+Deleting takes no `--force` flag (passing one fails with "Unknown argument") and does not prompt.
 
 ## Preview
 
